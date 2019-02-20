@@ -34,7 +34,7 @@ public class JpaMappingTest {
         User user = userRepository.save(User.builder()
         .name("havi")
         .password("test")
-        .email("email")
+        .email(email)
         .createdDate(LocalDateTime.now())
         .build());
 
@@ -45,19 +45,20 @@ public class JpaMappingTest {
         .boardType(BoardType.free)
         .createdDate(LocalDateTime.now())
         .updatedDate(LocalDateTime.now())
-        .user(user).build);
+        .user(user).build());
     }
 
     @Test
-    public void 제대로_생성됐는지_테스트(){
+    public void 제대로_생성됐는지_테스트() {
         User user = userRepository.findByEmail(email);
+
         assertThat(user.getName(), is("havi"));
         assertThat(user.getPassword(), is("test"));
         assertThat(user.getEmail(), is(email));
 
         Board board = boardRepository.findByUser(user);
-        assertThat(board.getTitle, is(boardTestTitle));
-        assertThat(board.getSubtitle(), is(boardTestTitle));
+        assertThat(board.getTitle(), is(boardTestTitle));
+        assertThat(board.getSubTitle(), is("서브 타이틀"));
         assertThat(board.getContent(), is("콘텐츠"));
         assertThat(board.getBoardType(), is(BoardType.free));
     }
