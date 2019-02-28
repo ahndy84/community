@@ -8,7 +8,6 @@
 </head>
 <body>
 	<div th:replace="layout/header::header"></div>
-
 	<div class="container">
 		<div class="page-header">
 			<h1>게시글 목록</h1>
@@ -41,33 +40,25 @@
 				</tbody>
 			</table>
 		</div>
-	<!-- Pagination -->
-
+		<!-- Pagination -->
 		<nav aria-label="Page navigation" style="text-align:center;">
 			<ul class ="pagination"
-				th:with="startNumber=${T(Math).floor(boardList.number/10)}*10+1, endNumber=(${boardList.ttalPages} > ${startNumber}+9) ? ${startNumber}+9 : ${boardList.totalPages}">
-			<li><a href="/board/list?page=1">&laquo;</a></li>
-			<li th:style="${boardList.first} ? 'display:none'">
-				<a th:href="@{/board/list(page=${boardList.number})}">&lsaquo;</a>
-			</li>
-			<li th:each="page :${#numbers.sequence(startNumber, endNumber)}"
+				th:with="startNumber=${T(Math).floor(boardList.number/10)}*10+1, endNumber=(${boardList.totalPages} > ${startNumber}+9) ? ${startNumber}+9 : ${boardList.totalPages}">
+				<!-- 맨 처음 으로 이동 버튼 -->
+				<li><a href="/board/list?page=1">&laquo;</a></li>
+				<!-- 이전 페이지로 이동 (맨 처음 페이지면 감춤)-->
+				<li th:style="${boardList.first} ? 'display:none'"><a th:href="@{/board/list(page=${boardList.number})}">&lsaquo;</a></li>
+				<!-- 각 페이지 번호로 이동하기-->
+				<li th:each="page :${#numbers.sequence(startNumber, endNumber)}"
 				th:class="(${page} == ${boardList.number}+1) ? 'active'">
-			 <a th:href="@{/board/list(page=${page})}" th:text="${page}">
-				 <span class="sr-only"></span>
-			 </a>
-			</li>
-
-			<li th:style="${boardList.last} ? 'display:none'">
-				<a th:href="@{/board/list(page=${boardList.number}+2)}">&lsaquo;</a>
-			</li>
-			<li>
-				<a th:href="@{/board/list(page=${boardList.totalPages})}">&lsaquo;</a>
-			</li>
+				 <a th:href="@{/board/list(page=${page})}" th:text="${page}"> <span class="sr-only"></span> </a>
+				</li>
+				<!-- 다음 페이지로 이동 (맨 마지막 페이지면 감춤)-->
+				<li th:style="${boardList.last} ? 'display:none'"><a th:href="@{/board/list(page=${boardList.number}+2)}">&lsaquo;</a></li>
+				<!-- 맨 마지막으로 이동 버튼 -->
+				<li><a th:href="@{/board/list(page=${boardList.totalPages})}">&lsaquo;</a></li>
 			</ul>
-
 		</nav>
-
-
 	</div>
 </body>
 </html>
